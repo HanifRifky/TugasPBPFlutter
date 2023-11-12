@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tugas_pbp/widgets/left_drawer.dart';
+import 'package:tugas_pbp/screens/shoplist_form.dart';
+import 'package:tugas_pbp/widgets/shop_card.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
   final List<ShopItem> items = [
-    ShopItem("Lihat Item", Icons.checklist),
-    ShopItem("Tambah Item", Icons.add_shopping_cart),
-    ShopItem("Logout", Icons.logout),
+    ShopItem("Lihat Item", Icons.checklist, Colors.blue),
+    ShopItem("Tambah Item", Icons.add_shopping_cart, Colors.green),
+    ShopItem("Logout", Icons.logout, Colors.red),
   ];
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -23,11 +26,12 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Shopping List',
-          style: TextStyle(color: Colors.white),
+          'Pusat Belanja',
         ),
         backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
       ),
+      drawer: const LeftDrawer(),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(
@@ -69,40 +73,15 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class ShopItem {
-  final String name;
-  final IconData icon;
-
-  ShopItem(this.name, this.icon);
-}
-
 class ShopCard extends StatelessWidget {
   final ShopItem item;
-
-  static int counter = 0;
-
-  Color switchColor() {
-    Color warna1 = Colors.blue;
-    Color warna2 = Colors.black;
-    Color warna3 = Colors.red;
-
-    if (counter == 0) {
-      counter += 1;
-      return warna1;
-    } else if (counter == 1) {
-      counter += 1;
-      return warna2;
-    } else {
-      return warna3;
-    }
-  }
 
   const ShopCard(this.item, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: switchColor(),
+      color: item.color,
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
@@ -111,6 +90,10 @@ class ShopCard extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
                 content: Text("Kamu telah menekan tombol ${item.name}!")));
+          if (item.name == "Tambah Item") {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ShopFormPage()));
+          }
         },
         child: Container(
           // Container untuk menyimpan Icon dan Text
