@@ -159,6 +159,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                             'name': _name,
                             'price': _harga.toString(),
                             'description': _description,
+                            'amount': _amount.toString(),
 
                             // TODO: Sesuaikan field data sesuai dengan aplikasimu
                           }));
